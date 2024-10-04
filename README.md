@@ -12,8 +12,7 @@
 7. Update the pipeline
 8. Update the main.py
 9. Update the app.py
-10. Update the DVC
-11. 
+10. Update the DVC 
 ![Alt Text](https://github.com/MalikZeeshan1122/Machine-learning-Project-MLflow/blob/main/WhatsApp%20Image%202024-09-29%20at%2011.58.52%20AM.jpeg)
 # How to run?
 
