@@ -1,125 +1,136 @@
-# **E2E-ML-Project-with-MLflow & DVC**  
+# 🚀 End-to-End ML Pipeline with MLflow & DVC
 
-## Project Overview
+![MLflow](https://img.shields.io/badge/MLflow-%23FF6F00.svg?style=for-the-badge&logo=mlflow&logoColor=white)
+![DVC](https://img.shields.io/badge/DVC-%2395C93D.svg?style=for-the-badge&logo=dvc&logoColor=white)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-**E2E-ML-Project-with-MLflow & DVC** is a comprehensive end-to-end machine learning pipeline built to demonstrate the full lifecycle of machine learning projects, including model training, tracking, versioning, and deployment. The project leverages **MLflow** for experiment tracking and **DVC** (Data Version Control) for managing datasets and model versions. This project provides a seamless workflow for data scientists and machine learning engineers to track their experiments, train models, and deploy them in production environments.
+## 📌 Overview
+A production-ready machine learning pipeline featuring:
+- **Experiment tracking** with MLflow
+- **Data versioning** with DVC
+- **CI/CD automation** via GitHub Actions
+- **Cloud deployment** on AWS (EC2/ECR)
+- **Containerization** with Docker
 
-### Key Features:
-- **Experiment Tracking** with MLflow.
-- **Data Versioning and Model Management** with DVC.
-- **CI/CD Pipeline** integrated with **GitHub Actions** and **AWS** for deployment.
-- **Dockerized Environment** for easy reproduction of the machine learning pipeline.
-- Integration with **Dagshub** for remote experiment tracking and collaboration.
+```mermaid
+graph TD
+    A[Raw Data] --> B[DVC Versioning]
+    B --> C[Feature Engineering]
+    C --> D[MLflow Tracking]
+    D --> E[Model Training]
+    E --> F[Model Registry]
+    F --> G[Docker Packaging]
+    G --> H[AWS Deployment]
+🛠️ Quick Start
+Prerequisites
+Python 3.10+
 
----
+Conda/Miniconda
 
-## Table of Contents
-- [Project Setup](#project-setup)
-- [How to Run](#how-to-run)
-- [MLflow Integration](#mlflow-integration)
-- [DVC Integration](#dvc-integration)
-- [Deployment Instructions](#deployment-instructions)
-- [Technologies Used](#technologies-used)
-- [Contact Information](#contact-information)
-- [Acknowledgments](#acknowledgments)
+Git
 
----
+Docker (for containerization)
 
-## Project Setup
-
-### Step 1: Clone the repository
-
-```bash
+Installation
+bash
+Copy
+# Clone repository
 git clone https://github.com/tiksharsh/mlflow-project.git
 cd mlflow-project
-Step 2: Create a Conda environment
-bash
-Copy
-Edit
-conda create -n mlproj-venv python=3.10.9 -y
+
+# Create conda environment
+conda create -n mlproj python=3.10.9 -y
 conda activate mlproj
-Step 3: Install the required dependencies
-bash
-Copy
-Edit
+
+# Install dependencies
 pip install -r requirements.txt
-Step 4: Run the application
+Running the Pipeline
 bash
 Copy
-Edit
-python app.py
-Now, open your browser and go to localhost:5000 (or the port specified) to view the application.
+# Start MLflow tracking server
+mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./artifacts --host 0.0.0.0
 
-How to Use MLflow
-MLflow is used to track your machine learning experiments, manage models, and store artifacts. You can run MLflow UI to visualize the experiments.
+# Run main pipeline (in another terminal)
+python src/main.py
+🔍 MLflow Integration
+Track experiments with:
 
-To run MLflow UI:
-bash
+python
 Copy
-Edit
-mlflow ui
-The UI will be available at http://localhost:5000.
+import mlflow
 
-DVC Integration
-DVC (Data Version Control) allows versioning of large datasets and model files efficiently. This project uses DVC to manage and version control the datasets and models in the pipeline.
-
-How to use DVC:
-Install DVC:
-
-bash
-Copy
-Edit
-pip install dvc
-Initialize DVC:
+with mlflow.start_run():
+    mlflow.log_param("learning_rate", 0.01)
+    mlflow.log_metric("accuracy", 0.95)
+    mlflow.log_artifact("model.pkl")
+Access the UI:
 
 bash
 Copy
-Edit
+mlflow ui --port 5000
+Note: UI available at http://localhost:5000
+
+🔄 DVC Workflow
+bash
+Copy
+# Initialize DVC
 dvc init
-To push data to remote storage (e.g., AWS S3, Google Cloud):
 
+# Add data files
+dvc add data/raw_dataset.csv
+
+# Configure remote storage (AWS S3 example)
+dvc remote add -d myremote s3://mybucket/dvc-storage
+
+# Version data
+dvc push
+🚀 Deployment
+AWS CI/CD Pipeline
+Set up IAM user with EC2/ECR permissions
+
+Configure GitHub Secrets:
+
+Copy
+AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY
+ECR_REPOSITORY_URL
+Push to trigger GitHub Actions workflow
+
+Docker Build
 bash
 Copy
-Edit
-dvc push
-Deployment Instructions
-CI/CD with GitHub Actions and AWS
-This project integrates with GitHub Actions to automate the CI/CD pipeline and deploy the model using AWS EC2 and ECR (Elastic Container Registry).
+docker build -t mlflow-model .
+docker run -p 5000:5000 mlflow-model
+🧩 Project Structure
+Copy
+.
+├── data/               # DVC-tracked datasets
+├── src/
+│   ├── main.py         # Pipeline entry point
+│   ├── preprocessing/  # Feature engineering
+│   └── models/         # Training scripts
+├── mlruns/             # MLflow experiments
+├── .github/
+│   └── workflows/      # CI/CD pipelines
+├── Dockerfile          # Container configuration
+└── requirements.txt    # Python dependencies
+🤝 Contributing
+Fork the repository
 
-Login to AWS Console and create an IAM user for deployment with the necessary access to EC2 and ECR.
+Create your feature branch (git checkout -b feature/amazing-feature)
 
-Create an ECR repository to store the Docker image and push the model image to it.
+Commit your changes (git commit -m 'Add some amazing feature')
 
-Configure EC2 instance (Ubuntu) and install Docker.
+Push to the branch (git push origin feature/amazing-feature)
 
-Set up GitHub Actions for CI/CD.
+Open a Pull Request
 
-For detailed instructions on setting up the CI/CD pipeline, check the AWS-CICD-Deployment-with-Github-Actions section.
+📜 License
+Distributed under the MIT License. See LICENSE for more information.
 
-Technologies Used
-MLflow: For experiment tracking and model management.
-
-DVC: For versioning data and models.
-
-Docker: For containerizing the application.
-
-AWS EC2 & ECR: For hosting and deploying the machine learning model.
-
-GitHub Actions: For automating deployment.
-
-Python: The primary programming language for developing the pipeline.
-
-Contact Information
-Feel free to reach out to me if you have any questions or are interested in collaborating on machine learning or AI projects.
-
-Email: malikzeeshan3.1417@gmail.com
-
-LinkedIn: @muhammadzeeshan007
-
-GitHub: MalikZeeshan1122
-
-Acknowledgments
-Special thanks to the open-source community for providing the tools used in this project, including MLflow, DVC, GitHub Actions, and AWS. These tools enable us to manage machine learning models efficiently, automate workflows, and deploy models at scale.
-
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
+📧 Contact
+Zeeshan Malik
+📧 malikzeeshan3.1417@gmail.com
+🔗 LinkedIn
+🐱 GitHub
