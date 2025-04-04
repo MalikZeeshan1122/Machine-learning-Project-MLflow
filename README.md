@@ -1,155 +1,125 @@
-# **E2E-ML-Project-with-MLflow & DVC**
+# **E2E-ML-Project-with-MLflow & DVC**  
 
 ## Project Overview
 
-This project demonstrates an end-to-end machine learning pipeline using **MLflow** for tracking experiments and **DVC** (Data Version Control) for managing datasets and model versions. The pipeline includes configuration management, logging, and deployment automation using AWS services like EC2 and ECR, integrated with GitHub Actions for CI/CD.
+**E2E-ML-Project-with-MLflow & DVC** is a comprehensive end-to-end machine learning pipeline built to demonstrate the full lifecycle of machine learning projects, including model training, tracking, versioning, and deployment. The project leverages **MLflow** for experiment tracking and **DVC** (Data Version Control) for managing datasets and model versions. This project provides a seamless workflow for data scientists and machine learning engineers to track their experiments, train models, and deploy them in production environments.
 
-## Workflows
+### Key Features:
+- **Experiment Tracking** with MLflow.
+- **Data Versioning and Model Management** with DVC.
+- **CI/CD Pipeline** integrated with **GitHub Actions** and **AWS** for deployment.
+- **Dockerized Environment** for easy reproduction of the machine learning pipeline.
+- Integration with **Dagshub** for remote experiment tracking and collaboration.
 
-1. Update `config.yaml`
-2. Update `schema.yaml`
-3. Update `params.yaml`
-4. Update the entity
-5. Update the configuration manager in `src/config`
-6. Update the components
-7. Update the pipeline
-8. Update `main.py`
-9. Update `app.py`
-10. Update DVC
+---
 
-![Alt Text](https://github.com/MalikZeeshan1122/Machine-learning-Project-MLflow/blob/main/WhatsApp%20Image%202024-09-29%20at%2011.58.52%20AM.jpeg)
+## Table of Contents
+- [Project Setup](#project-setup)
+- [How to Run](#how-to-run)
+- [MLflow Integration](#mlflow-integration)
+- [DVC Integration](#dvc-integration)
+- [Deployment Instructions](#deployment-instructions)
+- [Technologies Used](#technologies-used)
+- [Contact Information](#contact-information)
+- [Acknowledgments](#acknowledgments)
 
-## How to run?
+---
 
-### STEPS:
+## Project Setup
 
-1. **Clone the repository**
+### Step 1: Clone the repository
 
 ```bash
 git clone https://github.com/tiksharsh/mlflow-project.git
-STEP 01: Create a conda environment after opening the repository
+cd mlflow-project
+Step 2: Create a Conda environment
 bash
 Copy
 Edit
 conda create -n mlproj-venv python=3.10.9 -y
 conda activate mlproj
-STEP 02: Install the requirements
+Step 3: Install the required dependencies
 bash
 Copy
 Edit
 pip install -r requirements.txt
-Finally, run the following command:
-
+Step 4: Run the application
 bash
 Copy
 Edit
 python app.py
-Now, open up your local host and port to see the application in action.
+Now, open your browser and go to localhost:5000 (or the port specified) to view the application.
 
-MLflow
-For more information, refer to the official MLflow Documentation
+How to Use MLflow
+MLflow is used to track your machine learning experiments, manage models, and store artifacts. You can run MLflow UI to visualize the experiments.
 
-To run MLflow UI
+To run MLflow UI:
 bash
 Copy
 Edit
 mlflow ui
-dagshub
-dagshub
+The UI will be available at http://localhost:5000.
 
-Use the following code to initialize your project with dagshub and log your MLflow metrics:
+DVC Integration
+DVC (Data Version Control) allows versioning of large datasets and model files efficiently. This project uses DVC to manage and version control the datasets and models in the pipeline.
 
-python
-Copy
-Edit
-import dagshub
-dagshub.init(repo_owner='malikzeeshan3.1417', repo_name='mlflow-project', mlflow=True)
-
-import mlflow
-with mlflow.start_run():
-    mlflow.log_param('parameter name', 'value')
-    mlflow.log_metric('metric name', 1)
-Run this to export environment variables:
+How to use DVC:
+Install DVC:
 
 bash
 Copy
 Edit
-export MLFLOW_TRACKING_URI=https://dagshub.com/malikzeeshan3.1417/mlflow-project.mlflow
-export MLFLOW_TRACKING_USERNAME=malikzeeshan3.1417
-export MLFLOW_TRACKING_PASSWORD=0f27aa886d82f4cd2f16dc79464402ddf1de99b
-AWS-CICD-Deployment-with-Github-Actions
-1. Login to AWS Console
-2. Create IAM User for Deployment
-EC2 Access: It is a virtual machine.
+pip install dvc
+Initialize DVC:
 
-ECR: Elastic Container Registry to save your Docker image in AWS.
-
-Deployment Description
-Build Docker image of the source code.
-
-Push your Docker image to ECR.
-
-Launch your EC2 instance.
-
-Pull your image from ECR in EC2.
-
-Launch your Docker image in EC2.
-
-Policies for IAM User
-AmazonEC2ContainerRegistryFullAccess
-
-AmazonEC2FullAccess
-
-3. Create ECR Repository to Store Docker Image
-Save the URI: 566373416292.dkr.ecr.ap-south-1.amazonaws.com/mlproj
-
-4. Create EC2 Machine (Ubuntu)
-5. Open EC2 and Install Docker in EC2 Machine
 bash
 Copy
 Edit
-sudo apt-get update -y
-sudo apt-get upgrade
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-sudo usermod -aG docker ubuntu
-newgrp docker
-6. Configure EC2 as a Self-hosted Runner
-Go to GitHub settings > Actions > Runners > New Self-hosted Runner > Choose OS > Follow the setup commands.
+dvc init
+To push data to remote storage (e.g., AWS S3, Google Cloud):
 
-7. Set up GitHub Secrets
-AWS_ACCESS_KEY_ID=your_access_key
-
-AWS_SECRET_ACCESS_KEY=your_secret_key
-
-AWS_REGION=us-east-1
-
-AWS_ECR_LOGIN_URI=your_ecr_uri
-
-ECR_REPOSITORY_NAME=simple-app
-
-About MLflow
-MLflow is production-grade and provides tools to track experiments and manage models.
-
-It helps in logging, tagging, and tracking all machine learning experiments.
-
-👨‍💻 Author
-Malik Muhammad Zeeshan
-Machine Learning Engineer | Data Scientist
-
-📧 Email: malikzeeshan3.1417@gmail.com
-🔗 LinkedIn: @muhammadzeeshan007
-🐙 GitHub: MalikZeeshan1122
-
-📄 License
-This project is licensed under the MIT License.
-
-🙏 Acknowledgments
-Special thanks to the contributors and open-source libraries that make this project possible. Also, thanks to MLflow for providing a great framework for tracking and managing machine learning workflows.
-
-vbnet
+bash
 Copy
 Edit
+dvc push
+Deployment Instructions
+CI/CD with GitHub Actions and AWS
+This project integrates with GitHub Actions to automate the CI/CD pipeline and deploy the model using AWS EC2 and ECR (Elastic Container Registry).
 
+Login to AWS Console and create an IAM user for deployment with the necessary access to EC2 and ECR.
 
-In this version, I've added the **project name** "E2E-ML-Project-with-MLflow & DVC" at the beginning and made sure your contact information is included.
+Create an ECR repository to store the Docker image and push the model image to it.
+
+Configure EC2 instance (Ubuntu) and install Docker.
+
+Set up GitHub Actions for CI/CD.
+
+For detailed instructions on setting up the CI/CD pipeline, check the AWS-CICD-Deployment-with-Github-Actions section.
+
+Technologies Used
+MLflow: For experiment tracking and model management.
+
+DVC: For versioning data and models.
+
+Docker: For containerizing the application.
+
+AWS EC2 & ECR: For hosting and deploying the machine learning model.
+
+GitHub Actions: For automating deployment.
+
+Python: The primary programming language for developing the pipeline.
+
+Contact Information
+Feel free to reach out to me if you have any questions or are interested in collaborating on machine learning or AI projects.
+
+Email: malikzeeshan3.1417@gmail.com
+
+LinkedIn: @muhammadzeeshan007
+
+GitHub: MalikZeeshan1122
+
+Acknowledgments
+Special thanks to the open-source community for providing the tools used in this project, including MLflow, DVC, GitHub Actions, and AWS. These tools enable us to manage machine learning models efficiently, automate workflows, and deploy models at scale.
+
+License
+This project is licensed under the MIT License - see the LICENSE file for details.
